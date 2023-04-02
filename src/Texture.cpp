@@ -19,8 +19,13 @@ Texture::Texture() {
     glGenTextures(1, &Handle);
 }
 
-Texture::Texture(const std::string & /*path*/, const Texture::Options & /*options*/, bool /*generateMipmaps*/) {
+Texture::Texture(const std::string & path, const Texture::Options & options, bool generateMipmaps) {
     glGenTextures(1, &Handle);
+    Bind();
+    LoadDataFromFile(path);
+    ApplyOptions(options);
+    if(generateMipmaps) GenerateMipmaps();
+    Unbind();
 }
 
 void Texture::ApplyOptions(const Texture::Options &options) {
@@ -44,7 +49,7 @@ void Texture::Unbind() {
 
 void Texture::LoadDataFromFile(const std::string &path) {
     int width, height, channels;
-    unsigned char *data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+    unsigned char *data = stbi_load(path.c_str(), &width, &height, &channels, 4);
     if (data) {
         LoadData(data, width, height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE);
 
@@ -56,7 +61,7 @@ void Texture::LoadDataFromFile(const std::string &path) {
 
 void Texture::LoadDataFromMemory(unsigned char const *loc, int len) {
     int width, height, channels;
-    unsigned char *data = stbi_load_from_memory(loc, len, &width, &height, &channels, 0);
+    unsigned char *data = stbi_load_from_memory(loc, len, &width, &height, &channels, 4);
     if (data) {
         LoadData(data, width, height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE);
 

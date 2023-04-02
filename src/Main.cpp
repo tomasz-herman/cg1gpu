@@ -5,6 +5,7 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "Texture.h"
 
 int main() {
     if (!glfwInit()) {
@@ -40,6 +41,8 @@ int main() {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
 
+    Texture texture = Texture("res/lena.png");
+
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -48,6 +51,12 @@ int main() {
         ImGui::NewFrame();
 
         ImGui::ShowDemoWindow();
+
+        ImGui::Begin("CG1");
+
+        ImGui::Image(reinterpret_cast<ImTextureID>(texture.Handle), {512, 512});
+
+        ImGui::End();
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
