@@ -17,4 +17,4 @@
 [submodule "lib/spdlog"]
 	path = lib/spdlog
 	url = git@github.com:gabime/spdlog.git
-	branch = master
+	branch = v1.x

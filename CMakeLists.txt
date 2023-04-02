@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_subdirectory(lib)
 
-add_executable(cg1gpu main.cpp)
+add_subdirectory(src)
