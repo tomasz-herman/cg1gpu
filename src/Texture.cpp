@@ -51,7 +51,7 @@ void Texture::LoadDataFromFile(const std::string &path) {
     int width, height, channels;
     unsigned char *data = stbi_load(path.c_str(), &width, &height, &channels, 4);
     if (data) {
-        LoadData(data, width, height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE);
+        LoadData(data, width, height, GL_RGBA8, GL_RGBA, GL_UNSIGNED_BYTE);
 
         stbi_image_free(data);
     } else {

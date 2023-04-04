@@ -18,7 +18,7 @@ enum class ShaderType {
 class Shader {
 public:
     GLuint Handle = 0;
-    Shader(std::initializer_list<std::pair<const std::string &, ShaderType>> paths);
+    Shader(std::initializer_list<std::pair<const std::string, ShaderType>> paths);
     void Use() const;
     void LoadInteger(const std::string &name, int value) const;
     void LoadFloat(const std::string &name, float value) const;

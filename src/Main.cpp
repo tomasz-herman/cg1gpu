@@ -6,6 +6,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "Texture.h"
+#include "Shader.h"
 
 int main() {
     if (!glfwInit()) {
@@ -41,7 +42,9 @@ int main() {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
 
-    Texture texture = Texture("res/lena.png");
+    Texture inputTex = Texture("res/lena.png");
+    Texture outputTex = Texture("res/lena.png");
+    Shader shader = Shader({{"res/shader.cs", ShaderType::COMPUTE_SHADER}});
 
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -50,12 +53,25 @@ int main() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::ShowDemoWindow();
+        ImGui::Begin("Input Image");
+        ImGui::Image(reinterpret_cast<ImTextureID>(inputTex.Handle), {512, 512});
+        ImGui::End();
 
-        ImGui::Begin("CG1");
+        ImGui::Begin("Output Image");
+        ImGui::Image(reinterpret_cast<ImTextureID>(outputTex.Handle), {512, 512});
+        ImGui::End();
 
-        ImGui::Image(reinterpret_cast<ImTextureID>(texture.Handle), {512, 512});
+        ImGui::Begin("Controls");
+        if(ImGui::Button("Apply Filter")) {
+            shader.Use();
 
+            glBindImageTexture(0, inputTex.Handle, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA8);
+            glBindImageTexture(1, outputTex.Handle, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA8);
+
+            Shader::Dispatch(512, 512, 1);
+
+            Shader::Wait();
+        }
         ImGui::End();
 
         ImGui::Render();

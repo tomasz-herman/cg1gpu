@@ -4,7 +4,7 @@
 #include <vector>
 #include <sstream>
 
-Shader::Shader(std::initializer_list<std::pair<const std::string &, ShaderType>> paths) {
+Shader::Shader(std::initializer_list<std::pair<const std::string, ShaderType>> paths) {
     std::vector<std::pair<std::string, ShaderType>> sources;
     for (const auto &path : paths) {
         sources.emplace_back(Read(path.first), path.second);
