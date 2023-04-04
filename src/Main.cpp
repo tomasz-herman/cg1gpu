@@ -65,6 +65,11 @@ int main() {
         if(ImGui::Button("Apply Filter")) {
             shader.Use();
 
+            glm::mat3 kernel = {1, 1, 1, 1, 1, 1, 1, 1, 1};
+
+            shader.LoadMatrix3("kernel", kernel);
+            shader.LoadFloat("divisor", 9.0f);
+
             glBindImageTexture(0, inputTex.Handle, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA8);
             glBindImageTexture(1, outputTex.Handle, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA8);
 

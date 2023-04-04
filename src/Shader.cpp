@@ -97,6 +97,11 @@ void Shader::LoadVector4(const std::string &name, const glm::vec4 &value) const 
     glUniform4fv(location, 1, glm::value_ptr(value));
 }
 
+void Shader::LoadMatrix3(const std::string &name, const glm::mat3 &value) const {
+    GLint location = glGetUniformLocation(Handle, name.c_str());
+    glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value));
+}
+
 void Shader::LoadMatrix4(const std::string &name, const glm::mat4 &value) const {
     GLint location = glGetUniformLocation(Handle, name.c_str());
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));

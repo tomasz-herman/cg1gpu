@@ -24,6 +24,7 @@ public:
     void LoadFloat(const std::string &name, float value) const;
     void LoadVector3(const std::string &name, const glm::vec3 &value) const;
     void LoadVector4(const std::string &name, const glm::vec4 &value) const;
+    void LoadMatrix3(const std::string &name, const glm::mat3 &value) const;
     void LoadMatrix4(const std::string &name, const glm::mat4 &value) const;
     static void Dispatch(int x, int y, int z);
     static void Wait(GLbitfield flags = GL_ALL_BARRIER_BITS);
