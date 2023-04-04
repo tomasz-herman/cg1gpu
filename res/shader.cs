@@ -6,6 +6,7 @@ layout(rgba8, binding = 1) uniform image2D imgOutput;
 
 uniform mat3 kernel;
 uniform float divisor;
+uniform int imgSize;
 
 void main() {
     ivec2 coords = ivec2(gl_GlobalInvocationID.xy);
@@ -13,7 +14,7 @@ void main() {
     vec4 color = vec4(0);
     for(int i = -1; i < 2; i++) {
         for(int j = -1; j < 2; j++) {
-            color += imageLoad(imgInput, clamp(coords + ivec2(i, j), 0, 511));
+            color += imageLoad(imgInput, clamp(coords + ivec2(i, j), 0, imgSize - 1));
         }
     }
     color /= divisor;

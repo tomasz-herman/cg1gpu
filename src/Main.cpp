@@ -69,6 +69,7 @@ int main() {
 
             shader.LoadMatrix3("kernel", kernel);
             shader.LoadFloat("divisor", 9.0f);
+            shader.LoadInteger("imgSize", 512);
 
             glBindImageTexture(0, inputTex.Handle, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA8);
             glBindImageTexture(1, outputTex.Handle, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA8);
