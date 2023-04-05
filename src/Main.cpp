@@ -46,6 +46,9 @@ int main() {
     Texture outputTex = Texture("res/lena.png");
     Shader shader = Shader({{"res/shader.cs", ShaderType::COMPUTE_SHADER}});
 
+    glm::mat3 kernel = {1, 1, 1, 1, 1, 1, 1, 1, 1};
+    float divisor = 9.0f;
+
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -65,10 +68,8 @@ int main() {
         if(ImGui::Button("Apply Filter")) {
             shader.Use();
 
-            glm::mat3 kernel = {1, 1, 1, 1, 1, 1, 1, 1, 1};
-
             shader.LoadMatrix3("kernel", kernel);
-            shader.LoadFloat("divisor", 9.0f);
+            shader.LoadFloat("divisor", divisor);
             shader.LoadInteger("imgSize", 512);
 
             glBindImageTexture(0, inputTex.Handle, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA8);
@@ -78,6 +79,16 @@ int main() {
 
             Shader::Wait();
         }
+        ImGui::SameLine();
+        if(ImGui::Button("Reset")) {
+            outputTex.Bind();
+            outputTex.LoadDataFromFile("res/lena.png");
+            Texture::Unbind();
+        }
+        ImGui::InputFloat3("C0", glm::value_ptr(kernel[0]));
+        ImGui::InputFloat3("C1", glm::value_ptr(kernel[1]));
+        ImGui::InputFloat3("C2", glm::value_ptr(kernel[2]));
+        ImGui::InputFloat("Divisor", &divisor);
         ImGui::End();
 
         ImGui::Render();

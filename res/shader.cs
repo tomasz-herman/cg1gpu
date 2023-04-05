@@ -11,13 +11,13 @@ uniform int imgSize;
 void main() {
     ivec2 coords = ivec2(gl_GlobalInvocationID.xy);
 
-    vec4 color = vec4(0);
+    vec4 color = vec4(0, 0, 0, 1);
     for(int i = -1; i < 2; i++) {
         for(int j = -1; j < 2; j++) {
-            color += imageLoad(imgInput, clamp(coords + ivec2(i, j), 0, imgSize - 1));
+            color.rgb += imageLoad(imgInput, clamp(coords + ivec2(i, j), 0, imgSize - 1)).rgb * kernel[i + 1][j + 1];
         }
     }
-    color /= divisor;
+    color.rgb /= divisor;
 
     imageStore(imgOutput, coords, color);
 }
