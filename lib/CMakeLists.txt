@@ -17,6 +17,7 @@ target_sources(imgui PRIVATE imgui/imgui_demo.cpp
         imgui/imgui_widgets.cpp imgui/imgui.cpp
         imgui/backends/imgui_impl_opengl3.cpp
         imgui/backends/imgui_impl_glfw.cpp)
+target_link_libraries(imgui PRIVATE glfw glad)
 
 add_library(stb_image)
 target_sources(stb_image PRIVATE stb/stb_image.h)
