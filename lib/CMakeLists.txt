@@ -19,8 +19,5 @@ target_sources(imgui PRIVATE imgui/imgui_demo.cpp
         imgui/backends/imgui_impl_glfw.cpp)
 target_link_libraries(imgui PRIVATE glfw glad)
 
-add_library(stb_image)
-target_sources(stb_image PRIVATE stb/stb_image.h)
-target_include_directories(stb_image PUBLIC stb)
-set_target_properties(stb_image PROPERTIES LINKER_LANGUAGE C)
-target_compile_definitions(stb_image PRIVATE STB_IMAGE_IMPLEMENTATION)
+add_library(stb_image INTERFACE stb/stb_image.h)
+target_include_directories(stb_image INTERFACE stb)
