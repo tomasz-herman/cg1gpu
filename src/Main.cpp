@@ -81,9 +81,11 @@ int main() {
         }
         ImGui::SameLine();
         if(ImGui::Button("Reset")) {
-            outputTex.Bind();
-            outputTex.LoadDataFromFile("res/lena.png");
-            Texture::Unbind();
+            glCopyImageSubData(
+                    inputTex.Handle, GL_TEXTURE_2D, 0, 0, 0, 0,
+                    outputTex.Handle, GL_TEXTURE_2D, 0, 0, 0, 0,
+                    512, 512, 1
+            );
         }
         ImGui::InputFloat3("C0", glm::value_ptr(kernel[0]));
         ImGui::InputFloat3("C1", glm::value_ptr(kernel[1]));
