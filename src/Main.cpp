@@ -42,6 +42,7 @@ int main() {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
 
+    Texture sourceTex = Texture("res/lena.png");
     Texture inputTex = Texture("res/lena.png");
     Texture outputTex = Texture("res/lena.png");
     Shader shader = Shader({{"res/shader.cs", ShaderType::COMPUTE_SHADER}});
@@ -56,12 +57,12 @@ int main() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::Begin("Input Image");
-        ImGui::Image(reinterpret_cast<ImTextureID>(inputTex.Handle), {512, 512});
+        ImGui::Begin("Source Image");
+        ImGui::Image(reinterpret_cast<ImTextureID>(sourceTex.Handle), {512, 512});
         ImGui::End();
 
         ImGui::Begin("Output Image");
-        ImGui::Image(reinterpret_cast<ImTextureID>(outputTex.Handle), {512, 512});
+        ImGui::Image(reinterpret_cast<ImTextureID>(inputTex.Handle), {512, 512});
         ImGui::End();
 
         ImGui::Begin("Controls");
@@ -78,12 +79,18 @@ int main() {
             Shader::Dispatch(512, 512, 1);
 
             Shader::Wait();
+
+            glCopyImageSubData(
+                    outputTex.Handle, GL_TEXTURE_2D, 0, 0, 0, 0,
+                    inputTex.Handle, GL_TEXTURE_2D, 0, 0, 0, 0,
+                    512, 512, 1
+            );
         }
         ImGui::SameLine();
         if(ImGui::Button("Reset")) {
             glCopyImageSubData(
+                    sourceTex.Handle, GL_TEXTURE_2D, 0, 0, 0, 0,
                     inputTex.Handle, GL_TEXTURE_2D, 0, 0, 0, 0,
-                    outputTex.Handle, GL_TEXTURE_2D, 0, 0, 0, 0,
                     512, 512, 1
             );
         }
