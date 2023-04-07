@@ -13,6 +13,10 @@ int main() {
         spdlog::error("Failed to initialize glfw");
         return EXIT_FAILURE;
     }
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     auto window = glfwCreateWindow(1280, 800, "CG1GPU", nullptr, nullptr);
 
